@@ -1,15 +1,7 @@
 const ProfilePage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div id="container" class="max-w-md w-full">
-
-      <nav class="bg-white shadow-md p-2 sticky top-14">
-        <ul class="flex justify-around">
-          <li><a href="/" class="text-gray-600">홈</a></li>
-          <li><a href="/profile" class="text-blue-600">프로필</a></li>
-          <li><a id="logout" href="/login" class="text-gray-600">로그아웃</a></li>
-        </ul>
-      </nav>
-
+    
       <main class="p-4">
         <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
