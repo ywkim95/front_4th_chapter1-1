@@ -7,7 +7,7 @@ const validateContainer = (path, router) => {
     return router.login;
   }
   if (user && path === router.login) {
-    return router.profile;
+    return router.main;
   }
 
   return path;

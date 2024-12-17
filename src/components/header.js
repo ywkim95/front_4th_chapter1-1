@@ -4,7 +4,7 @@ const getSelectedClass = (path) => {
   const location = window.location.hash
     ? window.location.hash.slice(1)
     : window.location.pathname;
-  return location === path ? "text-blue-600" : "text-gray-600";
+  return location === path ? "text-blue-600 font-bold" : "text-gray-600";
 };
 
 const Header = () => {
