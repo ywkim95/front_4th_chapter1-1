@@ -1,7 +1,14 @@
-const ProfilePage = () => `
+import Footer from "../components/footer.js";
+import Header from "../components/header.js";
+import User from "../user.store.js";
+
+const ProfilePage = () => {
+  const user = new User().getUser();
+
+  return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div id="container" class="max-w-md w-full">
-    
+      ${Header()}
       <main class="p-4">
         <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -18,7 +25,7 @@ const ProfilePage = () => `
                 type="text"
                 id="username"
                 name="username"
-                value=""
+                value="${user.username}"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -32,7 +39,7 @@ const ProfilePage = () => `
                 type="email"
                 id="email"
                 name="email"
-                value=""
+                value="${user.email}"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -47,7 +54,7 @@ const ProfilePage = () => `
                 name="bio"
                 rows="4"
                 class="w-full p-2 border rounded"
-              ></textarea
+              >${user.bio}</textarea
               >
             </div>
             <button
@@ -59,8 +66,10 @@ const ProfilePage = () => `
           </form>
         </div>
       </main>
+      ${Footer()}
     </div>
   </div>
 `;
+};
 
 export default ProfilePage;

@@ -1,75 +1,91 @@
-import MainPage from "./home.js";
-import LoginPage from "./login.js";
-import ProfilePage from "./profile.js";
-import ErrorPage from "./error.js";
-import Header from "./components/header.js";
-import Footer from "./components/footer.js";
+import MainPage from "./pages/main.js";
+import LoginPage from "./pages/login.js";
+import ProfilePage from "./pages/profile.js";
+import ErrorPage from "./pages/error.js";
+import User from "./user.store.js";
 
-const router = () => {
-  const root = document.getElementById("root");
-  switch (location.pathname) {
-    case "/": {
-      root.innerHTML = MainPage();
-      document.querySelector("#container").prepend(Header());
-      document.querySelector("#container").append(Footer());
-
-      break;
-    }
-    case "/login":
-      root.innerHTML = LoginPage();
-      break;
-    case "/profile": {
-      root.innerHTML = ProfilePage();
-      document.querySelector("#container").prepend(Header());
-      document.querySelector("#container").append(Footer());
-      break;
-    }
+const hashRouter = (route) => {
+  switch (route) {
+    case "#/":
+      return MainPage();
+    case "#/login":
+      return LoginPage();
+    case "#/profile":
+      return ProfilePage();
     default:
-      root.innerHTML = ErrorPage();
+      return ErrorPage();
   }
 };
 
-const checkProfile = () => {
-  if (!localStorage.getItem("user")) {
-    if (location.pathname === "/profile") {
-      history.pushState(null, null, "/login");
-      router();
-    }
-  }
-  if (localStorage.getItem("user")) {
-    if (location.pathname === "/login") {
-      history.pushState(null, null, "/profile");
-    }
-    if (location.pathname === "/profile") {
-      router();
-      const user = JSON.parse(localStorage.getItem("user"));
-
-      Object.entries(user).forEach(([key, value]) => {
-        document.getElementById(key).value = value;
-      });
-    }
+const router = (route) => {
+  switch (route) {
+    case "/":
+      return MainPage();
+    case "/login":
+      return LoginPage();
+    case "/profile":
+      return ProfilePage();
+    default:
+      return ErrorPage();
   }
 };
 
-window.addEventListener("popstate", () => {
-  router();
-  checkProfile();
-});
+const render = (route) => {
+  const root = document.getElementById("root");
+  root.innerHTML = route;
+};
 
-window.addEventListener("DOMContentLoaded", () => {
-  router();
-  checkProfile();
-});
+const validateUser = (route) => {
+  const user = new User().getUser();
+  if (!user && location.pathname === "/profile") {
+    return "/login";
+  }
+  if (user && location.pathname === "/login") {
+    return "/profile";
+  }
+
+  return route;
+};
+
+const validateHash = (route) => {
+  const user = new User().getUser();
+  if (!user && location.hash === "#/profile") {
+    return "#/login";
+  }
+  if (user && location.hash === "#/login") {
+    return "#/profile";
+  }
+
+  return route;
+};
+
+const go = (path) => {
+  const validatedPath = validateUser(path ?? location.pathname);
+  const route = router(validatedPath) ?? router();
+  history.pushState(null, null, validatedPath);
+  render(route);
+};
+
+const goHash = (path) => {
+  const validatedPath = validateHash(path ?? location.hash);
+  const route = hashRouter(validatedPath) ?? hashRouter();
+  location.hash = validatedPath;
+  render(route);
+};
+
+window.addEventListener("popstate", () => go());
+
+window.addEventListener("DOMContentLoaded", () => go());
+
+window.addEventListener("hashchange", () => goHash());
 
 window.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     e.preventDefault();
     if (e.target.id === "logout") {
-      localStorage.removeItem("user");
+      new User().clearUser();
     }
-    history.pushState(null, null, e.target.getAttribute("href"));
-    router();
-    checkProfile();
+    go(e.target.getAttribute("href"));
   }
 });
 
@@ -84,13 +100,11 @@ window.addEventListener("submit", (e) => {
     bio: data.bio ?? "",
   };
 
-  localStorage.setItem("user", JSON.stringify(userForm));
+  new User().setUser(userForm);
 
   if (location.pathname !== "/profile") {
-    history.pushState(null, null, "/profile");
-    router();
-    checkProfile();
-  } else {
+    go("/profile");
+  } else if (location.pathname === "/profile") {
     alert("프로필이 업데이트 되었습니다.");
   }
 });
