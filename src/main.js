@@ -7,32 +7,32 @@ import User from "./user.store.js";
 const hashRouter = (route) => {
   switch (route) {
     case "#/":
-      return MainPage();
+      return () => MainPage();
     case "#/login":
-      return LoginPage();
+      return () => LoginPage();
     case "#/profile":
-      return ProfilePage();
+      return () => ProfilePage();
     default:
-      return ErrorPage();
+      return () => ErrorPage();
   }
 };
 
 const router = (route) => {
   switch (route) {
     case "/":
-      return MainPage();
+      return () => MainPage();
     case "/login":
-      return LoginPage();
+      return () => LoginPage();
     case "/profile":
-      return ProfilePage();
+      return () => ProfilePage();
     default:
-      return ErrorPage();
+      return () => ErrorPage();
   }
 };
 
 const render = (route) => {
   const root = document.getElementById("root");
-  root.innerHTML = route;
+  root.innerHTML = route();
 };
 
 const validateUser = (route) => {
