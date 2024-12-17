@@ -36,7 +36,7 @@ window.addEventListener("submit", (e) => {
 window.addEventListener("popstate", () => go());
 window.addEventListener("hashchange", () => goHash());
 window.addEventListener("DOMContentLoaded", () => {
-  if (location.hash) {
+  if (window.location.hash) {
     goHash();
   } else {
     go();
