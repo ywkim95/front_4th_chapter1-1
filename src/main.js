@@ -1,5 +1,5 @@
 import User from "./store";
-import { go, goHash } from "./route";
+import { pathRouter, hashRouter } from "./route";
 
 window.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
@@ -7,7 +7,7 @@ window.addEventListener("click", (e) => {
     if (e.target.id === "logout") {
       new User().clearUser();
     }
-    go(e.target.getAttribute("href"));
+    pathRouter(e.target.getAttribute("href"));
   }
 });
 
@@ -24,21 +24,21 @@ window.addEventListener("submit", (e) => {
   });
 
   if (form.id === "login-form") {
-    go("/profile");
+    pathRouter("/profile");
   }
 
   if (form.id === "profile-form") {
-    go("/profile");
+    pathRouter("/profile");
     alert("프로필이 업데이트 되었습니다.");
   }
 });
 
-window.addEventListener("popstate", () => go());
-window.addEventListener("hashchange", () => goHash());
+window.addEventListener("popstate", () => pathRouter());
+window.addEventListener("hashchange", () => hashRouter());
 window.addEventListener("DOMContentLoaded", () => {
   if (window.location.hash) {
-    goHash();
+    hashRouter();
   } else {
-    go();
+    pathRouter();
   }
 });

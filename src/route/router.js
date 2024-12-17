@@ -2,12 +2,12 @@ import { validateUserHash, validateUserPath } from "../validate";
 import { pathRoute, hashRoute } from "./route.js";
 import render from "./render.js";
 
-export const go = (path) => {
+export const pathRouter = (path) => {
   if (window.location.hash) {
-    return goHash(path);
+    return hashRouter(path);
   }
   if (window.location.pathname === "/index.hash.html") {
-    return goHash("#/");
+    return hashRouter("#/");
   }
   const validatedPath = validateUserPath(path ?? window.location.pathname);
   const route = pathRoute(validatedPath) ?? pathRoute();
@@ -15,7 +15,7 @@ export const go = (path) => {
   render(route);
 };
 
-export const goHash = (path) => {
+export const hashRouter = (path) => {
   let newPath = path ?? window.location.hash;
   if (!newPath.includes("#")) {
     newPath = `#${newPath}`;
