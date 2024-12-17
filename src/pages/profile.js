@@ -1,8 +1,8 @@
-import User from "../store";
+import { User } from "../store";
 import { Header, Footer } from "../components/index.js";
 
 const ProfilePage = () => {
-  const user = new User().getUser();
+  const user = new User().get();
 
   return `
   <div class="bg-gray-100 min-h-screen flex justify-center">

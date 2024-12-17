@@ -1,30 +1,12 @@
-class User {
-  #user;
-  key;
+import Store from "./abstract.store";
 
+class User extends Store {
   constructor(key = "user") {
+    super(key);
     if (User.instance) {
       return User.instance;
     }
-    this.key = key;
     User.instance = this;
-    this.#user = localStorage.getItem(this.key)
-      ? JSON.parse(localStorage.getItem(this.key))
-      : null;
-  }
-
-  getUser() {
-    return this.#user;
-  }
-
-  setUser(user) {
-    localStorage.setItem(this.key, JSON.stringify(user));
-    this.#user = user;
-  }
-
-  clearUser() {
-    localStorage.removeItem(this.key);
-    this.#user = null;
   }
 }
 

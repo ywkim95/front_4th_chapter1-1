@@ -14,10 +14,6 @@ const abstractRoute = (path, router) => {
   }
 };
 
-export const hashRoute = (route) => {
-  return abstractRoute(route, HASH_ROUTER);
-};
+export const hashRoute = (route) => abstractRoute(route, HASH_ROUTER);
 
-export const pathRoute = (route) => {
-  return abstractRoute(route, ROUTER);
-};
+export const pathRoute = (route) => abstractRoute(route, ROUTER);

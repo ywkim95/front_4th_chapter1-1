@@ -1,8 +1,8 @@
-import User from "../store";
+import { User } from "../store";
 import { HASH_ROUTER, ROUTER } from "../constants";
 
 const validateContainer = (path, router) => {
-  const user = new User().getUser();
+  const user = new User().get();
   if (!user && path === router.profile) {
     return router.login;
   }
