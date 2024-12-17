@@ -1,4 +1,4 @@
-import Store from "./abstract.store";
+import Store from "./store.js";
 
 class UserStore extends Store {
   constructor(key = "user") {

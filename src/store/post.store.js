@@ -1,5 +1,5 @@
-import Store from "./abstract.store.js";
-import json from "./posts.json";
+import Store from "./store.js";
+import json from "../../public/posts.json";
 
 class PostStore extends Store {
   constructor(key = "post") {
