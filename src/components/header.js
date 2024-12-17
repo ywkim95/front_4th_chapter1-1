@@ -1,7 +1,11 @@
 import User from "../store";
 
-const getSelectedClass = (path) =>
-  location.pathname === path ? "text-blue-600" : "text-gray-600";
+const getSelectedClass = (path) => {
+  const location = window.location.hash
+    ? window.location.hash.slice(1)
+    : window.location.pathname;
+  return location === path ? "text-blue-600" : "text-gray-600";
+};
 
 const Header = () => {
   const user = new User().getUser();
