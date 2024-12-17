@@ -1,4 +1,4 @@
-import { User } from "../store";
+import { UserStore } from "../store";
 
 const getSelectedClass = (path) => {
   const location = window.location.hash
@@ -8,7 +8,7 @@ const getSelectedClass = (path) => {
 };
 
 const Header = () => {
-  const user = new User().get();
+  const user = new UserStore().get();
 
   let li = `<li><a href="/" class="${getSelectedClass("/")}">홈</a></li>`;
   if (user) {
