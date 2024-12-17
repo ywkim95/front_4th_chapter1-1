@@ -1,4 +1,4 @@
-import User from "../user.store.js";
+import User from "../store";
 
 const getSelectedClass = (path) =>
   location.pathname === path ? "text-blue-600" : "text-gray-600";

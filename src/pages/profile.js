@@ -1,6 +1,5 @@
-import Footer from "../components/footer.js";
-import Header from "../components/header.js";
-import User from "../user.store.js";
+import User from "../store";
+import { Header, Footer } from "../components/index.js";
 
 const ProfilePage = () => {
   const user = new User().getUser();

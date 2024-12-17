@@ -1,5 +1,4 @@
-import Header from "../components/header.js";
-import Footer from "../components/footer.js";
+import { Header, Footer } from "../components";
 
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
