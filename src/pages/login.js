@@ -2,7 +2,7 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form action="/" id="login-form">
+      <form id="login-form">
         <div class="mb-4">
           <input id="username" name="username" type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>

@@ -35,7 +35,7 @@ const render = (route) => {
   root.innerHTML = route();
 };
 
-const validateUser = (route) => {
+const validateUserPath = (route) => {
   const user = new User().getUser();
   if (!user && location.pathname === "/profile") {
     return "/login";
@@ -47,7 +47,7 @@ const validateUser = (route) => {
   return route;
 };
 
-const validateHash = (route) => {
+const validateUserHash = (route) => {
   const user = new User().getUser();
   if (!user && location.hash === "#/profile") {
     return "#/login";
@@ -60,24 +60,28 @@ const validateHash = (route) => {
 };
 
 const go = (path) => {
-  const validatedPath = validateUser(path ?? location.pathname);
+  if (location.hash) {
+    return goHash(path);
+  }
+  if (location.pathname === "/index.hash.html") {
+    return goHash("#/");
+  }
+  const validatedPath = validateUserPath(path ?? location.pathname);
   const route = router(validatedPath) ?? router();
   history.pushState(null, null, validatedPath);
   render(route);
 };
 
 const goHash = (path) => {
-  const validatedPath = validateHash(path ?? location.hash);
-  const route = hashRouter(validatedPath) ?? hashRouter();
+  let newPath = path ?? location.hash;
+  if (!newPath.includes("#")) {
+    newPath = `#${newPath}`;
+  }
+  const validatedPath = validateUserHash(newPath);
+  const hashRoute = hashRouter(validatedPath) ?? hashRouter();
   location.hash = validatedPath;
-  render(route);
+  render(hashRoute);
 };
-
-window.addEventListener("popstate", () => go());
-
-window.addEventListener("DOMContentLoaded", () => go());
-
-window.addEventListener("hashchange", () => goHash());
 
 window.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
@@ -94,17 +98,29 @@ window.addEventListener("submit", (e) => {
   const form = e.target;
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
-  const userForm = {
+
+  new User().setUser({
     username: data.username,
     email: data.email ?? "",
     bio: data.bio ?? "",
-  };
+  });
 
-  new User().setUser(userForm);
-
-  if (location.pathname !== "/profile") {
+  if (form.id === "login-form") {
     go("/profile");
-  } else if (location.pathname === "/profile") {
+  }
+
+  if (form.id === "profile-form") {
+    go("/profile");
     alert("프로필이 업데이트 되었습니다.");
+  }
+});
+
+window.addEventListener("popstate", () => go());
+window.addEventListener("hashchange", () => goHash());
+window.addEventListener("DOMContentLoaded", () => {
+  if (location.hash) {
+    goHash();
+  } else {
+    go();
   }
 });

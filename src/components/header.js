@@ -1,14 +1,10 @@
 import User from "../user.store.js";
 
-const getSelectedClass = (path) => {
-  const pathname = location.pathname;
-  return pathname === path ? "text-blue-600" : "text-gray-600";
-};
+const getSelectedClass = (path) =>
+  location.pathname === path ? "text-blue-600" : "text-gray-600";
 
 const Header = () => {
   const user = new User().getUser();
-  console.log("path", location.pathname);
-  console.log(location.href, location.pathname);
 
   let li = `<li><a href="/" class="${getSelectedClass("/")}">홈</a></li>`;
   if (user) {
