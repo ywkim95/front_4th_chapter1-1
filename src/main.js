@@ -11,6 +11,22 @@ window.addEventListener("click", (e) => {
   }
 });
 
+const updateUserStore = (data) => {
+  new UserStore().set({
+    username: data.username,
+    email: data.email ?? "",
+    bio: data.bio ?? "",
+  });
+};
+
+const updatePostStore = (username, content) => {
+  new PostStore().addPost({
+    username: username,
+    content: content,
+    createdAt: new Date(),
+  });
+};
+
 window.addEventListener("submit", (e) => {
   e.preventDefault();
   const form = e.target;
@@ -18,32 +34,19 @@ window.addEventListener("submit", (e) => {
   const data = Object.fromEntries(formData);
 
   if (form.id === "login-form" && data.username) {
-    new UserStore().set({
-      username: data.username,
-      email: "",
-      bio: "",
-    });
+    updateUserStore(data);
     pathRouter("/profile");
   }
 
   if (form.id === "profile-form") {
-    new UserStore().set({
-      username: data.username,
-      email: data.email ?? "",
-      bio: data.bio ?? "",
-    });
-    pathRouter("/profile");
+    updateUserStore(data);
     alert("프로필이 업데이트 되었습니다.");
   }
 
   if (form.id === "post-form") {
     const user = new UserStore().get();
     if (user.username) {
-      new PostStore().addPost({
-        username: user.username,
-        content: data.content,
-        createdAt: new Date(),
-      });
+      updatePostStore(user.username, data.content);
       pathRouter("/");
     }
   }
