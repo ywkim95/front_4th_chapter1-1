@@ -13,10 +13,6 @@ const validateFactory = (path, router) => {
   return path;
 };
 
-export const validateUserPath = (route) => {
-  return validateFactory(route, ROUTER);
-};
+export const validateUserPath = (route) => validateFactory(route, ROUTER);
 
-export const validateUserHash = (route) => {
-  return validateFactory(route, HASH_ROUTER);
-};
+export const validateUserHash = (route) => validateFactory(route, HASH_ROUTER);
