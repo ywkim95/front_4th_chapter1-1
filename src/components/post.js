@@ -1,4 +1,4 @@
-import timeAgo from "../utils/util";
+import { timeAgo } from "../utils/util";
 
 const Post = (post) => {
   const { username, content, createdAt } = post;

@@ -1,4 +1,4 @@
-const timeAgo = (date) => {
+export const timeAgo = (date) => {
   const now = new Date();
   const past = new Date(date);
   const seconds = Math.floor((now.getTime() - past.getTime()) / 1000);
@@ -22,5 +22,3 @@ const timeAgo = (date) => {
 
   return "지금";
 };
-
-export default timeAgo;
