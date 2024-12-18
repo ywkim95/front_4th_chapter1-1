@@ -2,6 +2,16 @@ import { validateUserHash, validateUserPath } from "../validate";
 import { pathRoute, hashRoute } from "./route.js";
 import render from "./render.js";
 
+const validatePath = (validateFunc, path) => {
+  const validated = validateFunc(path);
+  if (path.includes("#")) {
+    window.location.hash = validated;
+  } else {
+    history.pushState(null, null, validated);
+  }
+  return validated;
+};
+
 export const pathRouter = (path) => {
   if (window.location.hash) {
     return hashRouter(path);
@@ -9,19 +19,16 @@ export const pathRouter = (path) => {
   if (window.location.pathname === "/index.hash.html") {
     return hashRouter("#/");
   }
-  const validatedPath = validateUserPath(path ?? window.location.pathname);
-  const route = pathRoute(validatedPath) ?? pathRoute();
-  history.pushState(null, null, validatedPath);
-  render(route);
+  path = path ?? window.location.pathname;
+  const validatedPath = validatePath(validateUserPath, path);
+  render(pathRoute(validatedPath));
 };
 
-export const hashRouter = (path) => {
-  let newPath = path ?? window.location.hash;
-  if (!newPath.includes("#")) {
-    newPath = `#${newPath}`;
+export const hashRouter = (hash) => {
+  let newHash = hash ?? window.location.hash;
+  if (!newHash.includes("#")) {
+    newHash = `#${newHash}`;
   }
-  const validatedPath = validateUserHash(newPath);
-  const route = hashRoute(validatedPath) ?? hashRoute();
-  window.location.hash = validatedPath;
-  render(route);
+  const validatedHash = validatePath(validateUserHash, newHash);
+  render(hashRoute(validatedHash));
 };
