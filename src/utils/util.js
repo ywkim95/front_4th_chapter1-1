@@ -14,6 +14,9 @@ export const timeAgo = (date) => {
 
   for (const interval of intervals) {
     const count = Math.floor(seconds / interval.seconds);
+    if (count === Infinity) {
+      return "방금 전";
+    }
 
     if (count > 0 || interval.label === "방금 전") {
       return count > 0 ? `${count}${interval.label}` : interval.label;
@@ -21,4 +24,14 @@ export const timeAgo = (date) => {
   }
 
   return "지금";
+};
+
+export const getBasePath = () => {
+  const host = window.location.hostname;
+
+  if (host.includes("github.io")) {
+    return "/front_4th_chapter1-1";
+  }
+
+  return "";
 };

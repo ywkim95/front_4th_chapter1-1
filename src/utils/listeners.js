@@ -16,13 +16,25 @@ const updatePostStore = (username, content) => {
     createdAt: new Date(),
   });
 };
+
 const clickEventListener = (e) => {
   if (e.target.tagName === "A") {
     e.preventDefault();
     if (e.target.id === "logout") {
       new UserStore().clear();
     }
-    pathRouter(e.target.getAttribute("href"));
+
+    const href = e.target.getAttribute("href");
+
+    // 해시 모드인지 확인 (index.hash.html 페이지에 있는 경우)
+    if (window.location.pathname.includes("/index.hash.html")) {
+      // 해시가 있는 경우 해시 라우터 사용
+      const hash = href.startsWith("#") ? href : `#${href}`;
+      hashRouter(hash);
+    } else {
+      // 일반 경로 라우터 사용
+      pathRouter(href);
+    }
   }
 };
 
@@ -34,7 +46,13 @@ const submitEventListener = (e) => {
 
   if (form.id === "login-form" && data.username) {
     updateUserStore(data);
-    pathRouter("/profile");
+
+    // 해시 모드 여부에 따라 다른 라우터 사용
+    if (window.location.pathname.includes("/index.hash.html")) {
+      hashRouter("#/profile");
+    } else {
+      pathRouter("/profile");
+    }
   }
 
   if (form.id === "profile-form") {
@@ -46,7 +64,13 @@ const submitEventListener = (e) => {
     const user = new UserStore().get();
     if (user.username) {
       updatePostStore(user.username, data.content);
-      pathRouter("/");
+
+      // 해시 모드 여부에 따라 다른 라우터 사용
+      if (window.location.pathname.includes("/index.hash.html")) {
+        hashRouter("#/");
+      } else {
+        pathRouter("/");
+      }
     }
   }
 };

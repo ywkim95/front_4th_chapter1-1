@@ -8,7 +8,11 @@ class PostStore extends Store {
       return PostStore.instance;
     }
     PostStore.instance = this;
-    this.set(json.posts);
+    this.set(
+      localStorage.getItem(this.key)
+        ? JSON.parse(localStorage.getItem(this.key))
+        : json.posts,
+    );
   }
 
   addPost(post) {

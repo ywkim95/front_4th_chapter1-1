@@ -4,6 +4,22 @@ const addListener = (type) => {
   window.addEventListener(type, listeners[type]);
 };
 
-["click", "submit", "popstate", "hashchange", "DOMContentLoaded"].forEach(
-  addListener,
-);
+const removeListener = (type) => {
+  window.removeEventListener(type, listeners[type]);
+};
+
+const init = () => {
+  const initializeListenerNames = [
+    "click",
+    "submit",
+    "DOMContentLoaded",
+    "popstate",
+    "hashchange",
+  ];
+  initializeListenerNames.forEach(addListener);
+  return () => {
+    initializeListenerNames.forEach(removeListener);
+  };
+};
+
+init();

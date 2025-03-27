@@ -1,2 +1,2 @@
-export { timeAgo } from "./util.js";
+export { timeAgo, getBasePath } from "./util.js";
 export { listeners } from "./listeners.js";
